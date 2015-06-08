@@ -159,6 +159,17 @@
 
   // Return the results of applying an iterator to each element.
   _.map = function(collection, iterator) {
+// Create an array to return the change collection to 
+    var mappedArr = [];
+
+    // Iterate throug the collection 
+    _.each(collection, function(val){
+      // Apply the callback to each element of the collection and push it into the new array
+      mappedArr.push(iterator(val));
+    });
+    // Return the new array
+    return mappedArr;
+    
     // map() is a useful primitive iteration function that works a lot
     // like each(), but in addition to running the operation on all
     // the members, it also maintains an array of results.
