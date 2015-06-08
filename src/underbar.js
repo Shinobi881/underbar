@@ -137,6 +137,23 @@
 
   // Produce a duplicate-free version of the array.
   _.uniq = function(array) {
+    // Sorts the input array
+    var sortedArr = array.sort();
+    
+    // Creates a new array to which we will push the uniq values
+    var uniqArr = [];
+
+    // Loops throught the collection giving the element and index 
+    _.each(sortedArr, function(previous, current){
+      // If the previous element is not identical to the current 
+      if(previous !== sortedArr[current+1]){
+        // Push it into the uniq array
+        uniqArr.push(sortedArr[current]);
+      }
+    });
+    // Return the new, uniq array
+    return uniqArr;
+
   };
 
 
