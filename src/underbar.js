@@ -169,7 +169,7 @@
     });
     // Return the new array
     return mappedArr;
-    
+
     // map() is a useful primitive iteration function that works a lot
     // like each(), but in addition to running the operation on all
     // the members, it also maintains an array of results.
@@ -214,6 +214,49 @@
   //   }); // should be 5, regardless of the iterator function passed in
   //          No accumulator is given so the first element is used.
   _.reduce = function(collection, iterator, accumulator) {
+       // A check to see if a start value was given
+       var noStartValue = accumulator === undefined;
+       // This will hold the accumulated values
+       var reducer = null;
+       
+
+      // If the function is not given a start value
+    if(noStartValue){
+       // Create count to allow us to skip the first elemebt  
+       var count = 1;
+       // Set the accumulation holder to the first element of the array
+       reducer = collection[0];
+       // Some value checking for this function
+       console.log("Reducer first initial no start value", reducer);
+       // Loop through the array
+      _.each(collection, function(val, index){
+         // While the count is less than the arrays length
+        while(count < collection.length){
+         // Append the value of the iterator to the reducer, skipping the first element 
+         reducer = iterator(reducer, collection[count]);
+         // More checking
+         console.log("Second index of the collection", index);
+         // Increment the count so we get the values we need and no endless loop
+         count++;
+        }
+      });
+       
+       console.log("Reducer no start value", reducer);
+      // If there is a start value given 
+    } else {
+       // Set the start accumulator to the initial value to be calculated
+       reducer = accumulator;
+       // Loop through the collection
+       _.each(collection, function(val){
+         // Append the value of the callback applied to the accumualtor and the element
+         reducer = iterator(reducer, val);
+       });
+       console.log("reducer with start value", reducer);
+    }    
+
+       // Return the reduced value(s)
+       return reducer;     
+
   };
 
   // Determine if the array or object contains a given value (using `===`).
