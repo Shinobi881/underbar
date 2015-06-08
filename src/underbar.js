@@ -88,19 +88,37 @@
     // TIP: Here's an example of a function that needs to iterate, which we've
     // implemented for you. Instead of using a standard `for` loop, though,
     // it uses the iteration helper `each`, which you will need to write.
+    // Initialize the query result to a "falsy" value
     var result = -1;
 
+    // Iterate through the array
     _.each(array, function(item, index) {
+      // If the iterator finds the item you're looking..
       if (item === target && result === -1) {
+        // Change the result from "falsy" to the index of that element
         result = index;
-      }
+      } // Otherwise, the result will jsut remain false
     });
 
+    // Return the result of your query
     return result;
   };
 
   // Return all elements of an array that pass a truth test.
   _.filter = function(collection, test) {
+    // Returned array
+    var filteredArray = [];
+
+    // Looping through collection testing each element
+    _.each(collection, function(val){
+      // If the particular element passes the test 
+      if(test(val)){
+        // Push the element into the filtered array
+        filteredArray.push(val);
+      }
+    });
+    // Retrun the filtered array with the items that passed the test
+    return filteredArray;
   };
 
   // Return all elements of an array that don't pass a truth test.
