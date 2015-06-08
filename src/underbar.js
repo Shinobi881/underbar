@@ -125,6 +125,14 @@
   _.reject = function(collection, test) {
     // TIP: see if you can re-use _.filter() here, without simply
     // copying code in and modifying it
+
+    // Check out the _.filter function, it's basically the reverse of that 
+    return _.filter(collection, function(val){
+      if(!test(val)){
+         // This function just returns each value directly to an array
+          return val;
+      }
+    });
   };
 
   // Produce a duplicate-free version of the array.
