@@ -276,11 +276,11 @@
   // 1. Passes by default for an empty collection - done!
   // 2. Passes for a collection all-truthy results - done!
   // 3. Fails for a collection of falsy results - done!
-  // 4. Fails for a collection containing falsy and truthy results
+  // 4. Fails for a collection containing falsy and truthy results - WORKING!
   // 5. SHould work when provided a collection containing undefined values - done!
   // 6. Should cast the result to a boolean - done!
-  // 7. Should handle callbacks that manipulate input
-  // 8. SHould work when no callback is provided
+  // 7. Should handle callbacks that manipulate input - WORKING!
+  // 8. SHould work when no callback is provided - done!
 
   _.every = function(collection, iterator) {
     // TIP: Try re-using reduce() here.
@@ -302,11 +302,17 @@
         }
     
     boolTest = _.reduce(collection, function(previous, current){
-       return iterator(previous, current);             
+       test = iterator(previous, current);
+       
+       if(!test) {
+        return false;
+       } else {
+        return true;
+       }            
     });
 
     console.log("Logging boolTest", boolTest);
-    
+    console.log("Logging test", test);
 
     if(!boolTest){
       boolTest = false;
