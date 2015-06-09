@@ -227,7 +227,7 @@
        // Set the accumulation holder to the first element of the array
        reducer = collection[0];
        // Some value checking for this function
-       console.log("Reducer first initial no start value", reducer);
+       //console.log("Reducer first initial no start value", reducer);
        // Loop through the array
       _.each(collection, function(val, index){
          // While the count is less than the arrays length
@@ -235,13 +235,13 @@
          // Append the value of the iterator to the reducer, skipping the first element 
          reducer = iterator(reducer, collection[count]);
          // More checking
-         console.log("Second index of the collection", index);
+         //console.log("Second index of the collection", index);
          // Increment the count so we get the values we need and no endless loop
          count++;
         }
       });
        
-       console.log("Reducer no start value", reducer);
+       //console.log("Reducer no start value", reducer);
       // If there is a start value given 
     } else {
        // Set the start accumulator to the initial value to be calculated
@@ -251,7 +251,7 @@
          // Append the value of the callback applied to the accumualtor and the element
          reducer = iterator(reducer, val);
        });
-       console.log("reducer with start value", reducer);
+       //console.log("reducer with start value", reducer);
     }    
 
        // Return the reduced value(s)
@@ -273,8 +273,49 @@
 
 
   // Determine whether all of the elements match a truth test.
+  // 1. Passes by default for an empty collection
+  // 2. Passes for a collection all-truthy results --->
+  // 3. Fails for a collection of falsy results --->
+  // 4. Fails for a collection containing falsy and truthy results
+  // 5. SHould work when provided a collection containing undefined values --->
+  // 6. Should cast teh result to a boolean 
+  // 7. Should handle callbacks that manipulate input
+  // 8. SHould work when no callback is provided
+
   _.every = function(collection, iterator) {
     // TIP: Try re-using reduce() here.
+    var noIterator = iterator === undefined;
+    var boolTest = true;
+    if(collection.length === 0){
+      return boolTest;
+    }
+    var test = true; 
+
+        // if(noIterator){
+        //    iterator = function(previous, current){
+        //     if(previous === true && current === true){
+        //       return true;
+        //     } else {
+        //       return false;
+        //     }
+        //   }
+        // }
+    
+    boolTest = _.reduce(collection, function(previous, current){
+       return iterator(previous, current);             
+    });
+
+    console.log("Logging boolTest", boolTest);
+    
+
+    if(!boolTest){
+      boolTest = false;
+    } else {
+    
+    boolTest = true;
+  }
+
+  return boolTest;
   };
 
   // Determine whether any of the elements pass a truth test. If no iterator is
