@@ -273,12 +273,12 @@
 
 
   // Determine whether all of the elements match a truth test.
-  // 1. Passes by default for an empty collection
-  // 2. Passes for a collection all-truthy results --->
-  // 3. Fails for a collection of falsy results --->
+  // 1. Passes by default for an empty collection - done!
+  // 2. Passes for a collection all-truthy results - done!
+  // 3. Fails for a collection of falsy results - done!
   // 4. Fails for a collection containing falsy and truthy results
-  // 5. SHould work when provided a collection containing undefined values --->
-  // 6. Should cast teh result to a boolean 
+  // 5. SHould work when provided a collection containing undefined values - done!
+  // 6. Should cast the result to a boolean - done!
   // 7. Should handle callbacks that manipulate input
   // 8. SHould work when no callback is provided
 
@@ -291,15 +291,15 @@
     }
     var test = true; 
 
-        // if(noIterator){
-        //    iterator = function(previous, current){
-        //     if(previous === true && current === true){
-        //       return true;
-        //     } else {
-        //       return false;
-        //     }
-        //   }
-        // }
+        if(noIterator){
+           iterator = function(previous, current){
+            if(previous === true && current === true){
+              return true;
+            } else {
+              return false;
+            }
+          }
+        }
     
     boolTest = _.reduce(collection, function(previous, current){
        return iterator(previous, current);             
