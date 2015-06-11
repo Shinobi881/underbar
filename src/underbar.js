@@ -301,15 +301,17 @@
           }
         }
     
-    boolTest = _.reduce(collection, function(previous, current){
-       test = iterator(previous, current);
+    boolTest = _.reduce(collection, iterator);
+
+    // _.reduce(collection, function(previous, current){
+    //    test = iterator(previous, current);
        
-       if(!test) {
-        return false;
-       } else {
-        return true;
-       }            
-    });
+    //    if(!test) {
+    //     return false;
+    //    } else {
+    //     return true;
+    //    }            
+    // });
 
     console.log("Logging boolTest", boolTest);
     console.log("Logging test", test);
