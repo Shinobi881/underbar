@@ -272,6 +272,8 @@
   };
 
 
+
+  
   // Determine whether all of the elements match a truth test.
   // 1. Passes by default for an empty collection - done!
   // 2. Passes for a collection all-truthy results - done!
@@ -280,10 +282,13 @@
   // 5. SHould work when provided a collection containing undefined values - done!
   // 6. Should cast the result to a boolean - done!
   // 7. Should handle callbacks that manipulate input - WORKING!
-  // 8. SHould work when no callback is provided - done!
-
+  // 8. Should work when no callback is provided - done!
+  //console.log(_.isEven); 
   _.every = function(collection, iterator) {
     // TIP: Try re-using reduce() here.
+    
+
+    //console.log(collection);
     var noIterator = iterator === undefined;
     var boolTest = true;
     if(collection.length === 0){
@@ -292,36 +297,44 @@
     var test = true; 
 
         if(noIterator){
-           iterator = function(previous, current){
-            if(previous === true && current === true){
-              return true;
-            } else {
+           iterator = function(current){
+            if(current !== true){
               return false;
+            } else {
+              return true;
             }
           }
         }
+          var newCollection = [];
+
+      
+          _.each(collection, function(val){
+            newCollection.push(val);
+          });        
+          
+          //console.log(newCollection);
+
+        //var newIdentity = _.identity(collection);
+      //console.log(newIdentity);
+      //var unTrue = true;
+    boolTest = _.reduce(newCollection, function(previous, current){
+                    
+
+                     //unTrue = _.contains(newCollection, !true);
+
+
+                    return iterator(current);                  
+    });  
+    var counter = 1;
+    console.log('Console logging new collection', newCollection);
+    console.log('console logging boolTest after newCollection is reduced', boolTest);
     
-    boolTest = _.reduce(collection, iterator);
-
-    // _.reduce(collection, function(previous, current){
-    //    test = iterator(previous, current);
-       
-    //    if(!test) {
-    //     return false;
-    //    } else {
-    //     return true;
-    //    }            
-    // });
-
-    console.log("Logging boolTest", boolTest);
-    console.log("Logging test", test);
 
     if(!boolTest){
       boolTest = false;
-    } else {
-    
-    boolTest = true;
-  }
+    } else {    
+      boolTest = true;
+    }
 
   return boolTest;
   };
