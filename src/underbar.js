@@ -289,48 +289,85 @@
     
 
     //console.log(collection);
-    var noIterator = iterator === undefined;
-    var boolTest = true;
+        var boolTest = true;
     if(collection.length === 0){
       return boolTest;
     }
     var test = true; 
 
-        if(noIterator){
+        if(iterator === undefined){
            iterator = function(current){
-            if(current !== true){
+            if(current !== true || current === undefined || current < 1){
               return false;
             } else {
               return true;
             }
           }
         }
-          var newCollection = [];
-
-      
-          _.each(collection, function(val){
-            newCollection.push(val);
-          });        
           
-          //console.log(newCollection);
 
-        //var newIdentity = _.identity(collection);
-      //console.log(newIdentity);
-      //var unTrue = true;
+      // //function newColl(collection){
+      //     _.each(collection, function(val){
+      //       newCollection.push(val);
+      //     });        
+      //       //return newCollection;
+      //     //}();
+      //     
+var result = null;
+      var newCollection = _.map(collection, function(val){
+
+if(iterator(val) === !true || iterator(val) === false || iterator(val) < 1 || iterator(val) === undefined){
+                      result = -6;
+
+                    } else {
+                      result = 1;
+                    }
+                    return result
+
+      });
+          
+          
+
+    //console.log(newCollection);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  //   var count = 0;
+  //   var result = null;
+  //   var result1 = true;
     boolTest = _.reduce(newCollection, function(previous, current){
                     
+                    // if(iterator(current) === !true || iterator(current) === false || iterator(current) < 1){
+                    //   result = -6;
 
-                     //unTrue = _.contains(newCollection, !true);
+                    // } else {
+                    //   result = 1;
+                    // }
+
+                     
 
 
-                    return iterator(current);                  
+                    return previous + current;                 
     });  
-    var counter = 1;
-    console.log('Console logging new collection', newCollection);
-    console.log('console logging boolTest after newCollection is reduced', boolTest);
+  //   //var counter = 1;
+  console.log('Console logging collection', collection);
+  console.log('Console logging new collection', newCollection);
+    
+  console.log('console logging boolTest after newCollection is reduced', boolTest);
     
 
-    if(!boolTest){
+    if(!boolTest || boolTest < 1){
       boolTest = false;
     } else {    
       boolTest = true;
