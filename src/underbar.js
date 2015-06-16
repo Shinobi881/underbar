@@ -48,14 +48,14 @@
       // Return the last element in the array, only
       return array[end];
     // Otherwise, if n is larger than the arrays' length  
-    } else if (n > end) {
+  } else if (n > end) {
       // Return the entire array
       return array;
     // Otherwise, just do what the function was intended to do
-    } else {
-      return array.slice(index, n + 1);
-    }
-  };
+  } else {
+    return array.slice(index, n + 1);
+  }
+};
 
   // Call iterator(value, key, collection) for each element of collection.
   // Accepts both arrays and objects.
@@ -71,7 +71,7 @@
         iterator(collection[i], i, collection);
       }
     // If the collection is an Object
-    } else {
+  } else {
       // Use a "for-in" loop to access each object property
       for(var key in collection) {
         // Do whatever you intend to do to each property
@@ -80,7 +80,7 @@
 
     }
       // The each function doesn't return anything
-  };
+    };
 
   // Returns the index at which value can be found in the array, or -1 if value
   // is not present in the array.
@@ -130,9 +130,9 @@
     return _.filter(collection, function(val){
       if(!test(val)){
          // This function just returns each value directly to an array
-          return val;
-      }
-    });
+         return val;
+       }
+     });
   };
 
   // Produce a duplicate-free version of the array.
@@ -160,7 +160,7 @@
   // Return the results of applying an iterator to each element.
   _.map = function(collection, iterator) {
 // Create an array to return the change collection to 
-    var mappedArr = [];
+var mappedArr = [];
 
     // Iterate throug the collection 
     _.each(collection, function(val){
@@ -214,50 +214,35 @@
   //   }); // should be 5, regardless of the iterator function passed in
   //          No accumulator is given so the first element is used.
   _.reduce = function(collection, iterator, accumulator) {
-       // A check to see if a start value was given
-       var noStartValue = accumulator === undefined;
-       // This will hold the accumulated values
-       var reducer = null;
-       
 
       // If the function is not given a start value
-    if(noStartValue){
+      if(accumulator === undefined){
        // Create count to allow us to skip the first elemebt  
        var count = 1;
-       // Set the accumulation holder to the first element of the array
-       reducer = collection[0];
-       // Some value checking for this function
-       //console.log("Reducer first initial no start value", reducer);
+       // Set the accumulationto the first element of the array
+       accumulator = collection[0];
        // Loop through the array
-      _.each(collection, function(val, index){
+       _.each(collection, function(val, index){
          // While the count is less than the arrays length
-        while(count < collection.length){
-         // Append the value of the iterator to the reducer, skipping the first element 
-         reducer = iterator(reducer, collection[count]);
-         // More checking
-         //console.log("Second index of the collection", index);
+         while(count < collection.length){
+         // Append the value of the iterator to the accumulator, skipping the first element 
+         accumulator = iterator(accumulator, collection[count]);
          // Increment the count so we get the values we need and no endless loop
          count++;
-        }
-      });
-       
-       //console.log("Reducer no start value", reducer);
+       }
+     });
       // If there is a start value given 
     } else {
-       // Set the start accumulator to the initial value to be calculated
-       reducer = accumulator;
        // Loop through the collection
        _.each(collection, function(val){
          // Append the value of the callback applied to the accumualtor and the element
-         reducer = iterator(reducer, val);
+         accumulator = iterator(accumulator, val);
        });
-       //console.log("reducer with start value", reducer);
-    }    
-
+     }   
        // Return the reduced value(s)
-       return reducer;     
+       return accumulator;     
 
-  };
+     };
 
   // Determine if the array or object contains a given value (using `===`).
   _.contains = function(collection, target) {
@@ -289,46 +274,74 @@
     
 
     //console.log(collection);
-        var boolTest = true;
+    var boolTest = true;
     if(collection.length === 0){
       return boolTest;
     }
     var test = true; 
 
-        if(iterator === undefined){
-           iterator = function(current){
-            if(current !== true || current === undefined || current < 1){
-              return false;
-            } else {
-              return true;
-            }
-          }
-        }
-          
+    if(iterator === undefined){
+     iterator = function(current){
+      if(current !== true || current === undefined || current < 1){
+        return false;
+      } else {
+        return true;
+      }
+    }
+  }
 
-          
-var result = null;
-      var newCollection = _.map(collection, function(val){
 
-if(iterator(val) === !true || iterator(val) === false || iterator(val) < 1 || iterator(val) === undefined){
-                      result = false;
 
-                    } else {
-                      result = true;
-                    }
-                    return result
+  var result = null;
+  var newCollection = _.map(collection, function(val){
 
-      });
+    if(iterator(val) === !true || iterator(val) === false || iterator(val) < 1 || iterator(val) === undefined){
+      result = false;
+
+    } else {
+      result = true;
+    }
+    return result
+
+  });
+
+  boolTest = _.reduce(newCollection, function(previous, current){
+   return previous && current;                 
+ });  
+
+
+  if(!boolTest || boolTest < 1){
+    boolTest = false;
+  } else {    
+    boolTest = true;
+  }
+
+  return boolTest;
+};
+
+  // Determine whether any of the elements pass a truth test. If no iterator is
+  // provided, provide a default one
+  _.some = function(collection, iterator) {
+    // TIP: There's a very clever way to re-use every() here.
+    //var finalResult = true;
+
+    var result = null;
+    var newCollection = _.map(collection, function(val){
+
+      if(iterator(val) === !true || iterator(val) === false || iterator(val) < 1 || iterator(val) === undefined){
+        result = false;
+
+      } else {
+        result = true;
+      }
+      return result
+
+    });
 
     boolTest = _.reduce(newCollection, function(previous, current){
-                       return previous && current;                 
-    });  
+     return previous || current;                 
+   });  
 
-  console.log('Console logging collection', collection);
-  console.log('Console logging new collection', newCollection);
-    
-  console.log('console logging boolTest after newCollection is reduced', boolTest);
-    
 
     if(!boolTest || boolTest < 1){
       boolTest = false;
@@ -336,13 +349,12 @@ if(iterator(val) === !true || iterator(val) === false || iterator(val) < 1 || it
       boolTest = true;
     }
 
-  return boolTest;
-  };
+    return boolTest;
 
-  // Determine whether any of the elements pass a truth test. If no iterator is
-  // provided, provide a default one
-  _.some = function(collection, iterator) {
-    // TIP: There's a very clever way to re-use every() here.
+
+
+
+    //return finalResult;
   };
 
 
@@ -364,8 +376,10 @@ if(iterator(val) === !true || iterator(val) === false || iterator(val) < 1 || it
   //   }, {
   //     bla: "even more stuff"
   //   }); // obj1 now contains key1, key2, key3 and bla
-  _.extend = function(obj) {
-  };
+_.extend = function(obj) {
+  var newObj = arguments[0];
+  return newObj;
+};
 
   // Like extend, but doesn't ever overwrite a key that already
   // exists in obj
