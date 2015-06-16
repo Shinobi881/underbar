@@ -306,61 +306,24 @@
         }
           
 
-      // //function newColl(collection){
-      //     _.each(collection, function(val){
-      //       newCollection.push(val);
-      //     });        
-      //       //return newCollection;
-      //     //}();
-      //     
+          
 var result = null;
       var newCollection = _.map(collection, function(val){
 
 if(iterator(val) === !true || iterator(val) === false || iterator(val) < 1 || iterator(val) === undefined){
-                      result = -6;
+                      result = false;
 
                     } else {
-                      result = 1;
+                      result = true;
                     }
                     return result
 
       });
-          
-          
 
-    //console.log(newCollection);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  //   var count = 0;
-  //   var result = null;
-  //   var result1 = true;
     boolTest = _.reduce(newCollection, function(previous, current){
-                    
-                    // if(iterator(current) === !true || iterator(current) === false || iterator(current) < 1){
-                    //   result = -6;
-
-                    // } else {
-                    //   result = 1;
-                    // }
-
-                     
-
-
-                    return previous + current;                 
+                       return previous && current;                 
     });  
-  //   //var counter = 1;
+
   console.log('Console logging collection', collection);
   console.log('Console logging new collection', newCollection);
     
