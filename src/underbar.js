@@ -301,7 +301,7 @@ var mappedArr = [];
     } else {
       result = true;
     }
-    return result
+    return result;
 
   });
 
@@ -316,6 +316,8 @@ var mappedArr = [];
     boolTest = true;
   }
 
+  
+
   return boolTest;
 };
 
@@ -323,38 +325,50 @@ var mappedArr = [];
   // provided, provide a default one
   _.some = function(collection, iterator) {
     // TIP: There's a very clever way to re-use every() here.
-    //var finalResult = true;
+ 
 
-    var result = null;
-    var newCollection = _.map(collection, function(val){
-
-      if(iterator(val) === !true || iterator(val) === false || iterator(val) < 1 || iterator(val) === undefined){
-        result = false;
-
-      } else {
-        result = true;
-      }
-      return result
-
-    });
-
-    boolTest = _.reduce(newCollection, function(previous, current){
-     return previous || current;                 
-   });  
-
-
-    if(!boolTest || boolTest < 1){
-      boolTest = false;
-    } else {    
-      boolTest = true;
+    var boolTest = false;
+    if(collection.length === 0){
+      return boolTest;
     }
+    var test = true; 
 
-    return boolTest;
+    if(iterator === undefined){
+     iterator = function(current){
+      if(current !== true || current === undefined || current < 1){
+        return false;
+      } else {
+        return true;
+      }
+    }
+  }
+
+  var result = null;
+  var newCollection = _.map(collection, function(val){
+
+    if(iterator(val) === !true || iterator(val) === false || iterator(val) < 1 || iterator(val) === undefined){
+      result = false;
+
+    } else {
+      result = true;
+    }
+    return result;
+
+  });
+
+  boolTest = _.reduce(newCollection, function(previous, current){
+   return previous || current;                 
+ });  
 
 
+  if(!boolTest || boolTest < 1){
+    boolTest = false;
+  } else {    
+    boolTest = true;
+  }
 
-
-    //return finalResult;
+  return boolTest;
+  
   };
 
 
@@ -378,12 +392,59 @@ var mappedArr = [];
   //   }); // obj1 now contains key1, key2, key3 and bla
 _.extend = function(obj) {
   var newObj = arguments[0];
+  var argLength = arguments.length;
+
+  _.each(arguments, function(arrVal, index){
+    _.each(arrVal, function(objProp, key){
+      newObj[key] = objProp;
+
+      //console.log(newObj)
+
+    });
+  });
+
   return newObj;
 };
 
   // Like extend, but doesn't ever overwrite a key that already
   // exists in obj
   _.defaults = function(obj) {
+    // No condition for undefined arguments
+    var newObj = arguments[0];
+    var argLength = arguments.length;
+
+    _.each(arguments, function(arg){
+      _.each(arg, function(val, key){
+        console.log(arg, val, key);
+
+        if (!newObj.hasOwnProperty(key)){
+
+          newObj[key] = val;
+        }
+
+        // console.log('arrVal', arrVal);
+        // if(newObj[key] || !newObj[key]){
+        //   newObj[key] = newObj[key];
+        // }
+        // if(]){
+        // console.log(key, newObj[key]);
+        // newObj[key] = newObj[key];
+        // //  console.log(objProp);
+        // } 
+
+      //if(key){
+        // key = key;
+        //console.log([key].objProp);
+     // } 
+    //   else {
+    //   newObj[key] = objProp;
+    // }
+      //console.log(key)
+
+    });
+  });
+
+  return newObj;
   };
 
 
@@ -427,6 +488,18 @@ _.extend = function(obj) {
   // already computed the result for the given argument and return that value
   // instead if possible.
   _.memoize = function(func) {
+      
+    var alreadyCalled = false;
+    var result = func.apply(this, arguments);
+
+    return function() {
+      if(!alreadyCalled && !result){
+        //console.log('Hi');
+
+      }
+    }
+
+
   };
 
   // Delays a function for the given number of milliseconds, and then calls
@@ -436,6 +509,8 @@ _.extend = function(obj) {
   // parameter. For example _.delay(someFunction, 500, 'a', 'b') will
   // call someFunction('a', 'b') after 500ms
   _.delay = function(func, wait) {
+    //var funcArgs = func.apply(this, arguments);
+    return setTimeout(func, wait);
   };
 
 
