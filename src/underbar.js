@@ -415,31 +415,14 @@ _.extend = function(obj) {
 
     _.each(arguments, function(arg){
       _.each(arg, function(val, key){
-        console.log(arg, val, key);
+        //console.log(arg, val, key);
 
         if (!newObj.hasOwnProperty(key)){
 
           newObj[key] = val;
         }
 
-        // console.log('arrVal', arrVal);
-        // if(newObj[key] || !newObj[key]){
-        //   newObj[key] = newObj[key];
-        // }
-        // if(]){
-        // console.log(key, newObj[key]);
-        // newObj[key] = newObj[key];
-        // //  console.log(objProp);
-        // } 
-
-      //if(key){
-        // key = key;
-        //console.log([key].objProp);
-     // } 
-    //   else {
-    //   newObj[key] = objProp;
-    // }
-      //console.log(key)
+       
 
     });
   });
@@ -464,6 +447,7 @@ _.extend = function(obj) {
     // time it's called.
     var alreadyCalled = false;
     var result;
+    //console.log(re);
 
     // TIP: We'll return a new function that delegates to the old one, but only
     // if it hasn't been called before.
@@ -473,12 +457,38 @@ _.extend = function(obj) {
         // infromation from one function call to another.
         result = func.apply(this, arguments);
         alreadyCalled = true;
+        console.log('Result', result);
       }
+      //console.log(result);
       // The new function always returns the originally computed result.
       return result;
     };
   };
 
+  
+
+
+
+// var memo ={};
+
+// function cheatInc(num){
+//   // if(!memo.hasOwnProperty(num)){
+//   //    return memo[num] = num++;
+     
+//   // } 
+
+//   // return memo[num];
+
+// return memo.hasOwnProperty(num) ? memo[num] : (memo[num] = num++);
+//     // Not for falsy values
+// // return memo[num] || (memo[num] = num++);
+
+
+// }
+
+  
+//saljdfghajdshjkh
+  
   // Memorize an expensive function's results by storing them. You may assume
   // that the function takes only one argument and that it is a primitive.
   // memoize could be renamed to oncePerUniqueArgumentList; memoize does the
@@ -487,17 +497,38 @@ _.extend = function(obj) {
   // _.memoize should return a function that, when called, will check if it has
   // already computed the result for the given argument and return that value
   // instead if possible.
+  
   _.memoize = function(func) {
-      
-    var alreadyCalled = false;
-    var result = func.apply(this, arguments);
-
+    var memoObj = {};
+    var key;    
+    
     return function() {
-      if(!alreadyCalled && !result){
+      
+      key = "" + Array.prototype.slice.call(arguments);
+
+      return memoObj.hasOwnProperty(key) ? memoObj[key] : (memoObj[key] = func.apply(this, arguments));
+    };
+
+    // var alreadyCalled = false;
+    // var result;
+    // var result;
+    // //console.log(result);
+    // return function() {
+    //   //result1 = func(result);
+
+    //   if (!alreadyCalled) {
+
+    //     result = func.apply(this, arguments);
+    //     alreadyCalled = true;
+    //   }
+    //   console.log(result);
+      // if(!alreadyCalled && !result){
         //console.log('Hi');
 
-      }
-    }
+      //}
+      
+    //   return result;
+    // }
 
 
   };
@@ -510,7 +541,14 @@ _.extend = function(obj) {
   // call someFunction('a', 'b') after 500ms
   _.delay = function(func, wait) {
     //var funcArgs = func.apply(this, arguments);
-    return setTimeout(func, wait);
+    var funcArgs = [].slice.call(arguments, 2);
+
+
+    // for(var i = 2; i < arguments.length; i++){
+    //     funcArgs.push(arguments[i]);
+    // }
+
+    return setTimeout(function(){return func.apply(null, funcArgs);}, wait);
   };
 
 
